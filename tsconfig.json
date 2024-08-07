@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "es6" /* Définir la version ECMAScript cible pour le JavaScript généré */,
+    "lib": [
+      "es6"
+    ] /* Inclure les déclarations de bibliothèque compatibles pour l'environnement cible */,
+
+    /* Modules */
+    "module": "commonjs" /* Spécifier le type de module généré (CommonJS est utilisé pour Node.js) */,
+    "rootDir": "./src" /* Définir le dossier racine des fichiers source */,
+    "outDir": "./dist" /* Dossier de sortie pour les fichiers compilés */,
+
+    /* Interop Constraints */
+    "esModuleInterop": true /* Emettre du JavaScript supplémentaire pour faciliter l'importation de modules CommonJS */,
+    "allowSyntheticDefaultImports": true /* Autoriser 'import x from y' lorsque le module n'a pas d'export par défaut */,
+
+    /* Type Checking */
+    "strict": true /* Activer toutes les options de vérification de types strictes */,
+    "skipLibCheck": true /* Ignorer la vérification des types dans tous les fichiers .d.ts */,
+
+    /* Completeness */
+    "forceConsistentCasingInFileNames": true /* Assurez-vous que la casse est correcte dans les imports */
+  },
+  "include": ["src"] /* Inclure tous les fichiers dans le dossier "src" */,
+  "exclude": [
+    "node_modules",
+    "dist"
+  ] /* Exclure "node_modules" et le dossier "dist" */
+}

@@ -24,9 +24,8 @@ const UserSchema = new Schema<IUser>({
     default: "user",
   },
   profileImage: { type: String },
-  phone: { type: String },
+  phone: { type: String, required: true },
   address: { type: String },
-  favorites: { type: [Number] },
   registrationDate: { type: Date, default: Date.now },
 });
 

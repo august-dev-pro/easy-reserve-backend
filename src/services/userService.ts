@@ -1,32 +1,28 @@
 import bcrypt from "bcrypt";
 import userModel, { IUser } from "../models/userModel";
+import { ErrorHandler } from "../utils/errorHandle";
 
 export const createUser = async (userData: IUser) => {
   try {
-    console.log("Creating user with data: ", userData);
-
-    // Vérification de l'existance de l'utilisateur
-    /*  const existingUser = await userModel.findOne({ email: userData.email });
+    // Vérification de l'existence de l'utilisateur
+    const existingUser = await userModel.findOne({ email: userData.email });
     if (existingUser) {
-      throw new Error("User already exists");
-    } */
+      throw new ErrorHandler(400, "User already exists");
+    }
 
     // Hashage du mot de passe
     const hashedPassword = await bcrypt.hash(userData.password, 10);
 
     // Création de l'utilisateur
-    const newUser = await userModel.create({
+    return await userModel.create({
       ...userData,
       password: hashedPassword,
     });
-
-    return newUser;
   } catch (error: any) {
-    console.error("Error creating user:", error.message);
-
-    // Lever l'erreur pour que le contrôleur puisse la gérer
-    throw new Error(
-      error.message || "An error occurred while creating the user."
+    throw new ErrorHandler(
+      500,
+      error.message || "An error occurred while creating the user.",
+      error.stack
     );
   }
 };
@@ -59,3 +55,10 @@ export const loginUser = async (userData: {
     throw new Error(error.message || "An error occurred during user login.");
   }
 };
+
+const userService = {
+  createUser,
+  loginUser,
+};
+
+export default userService;

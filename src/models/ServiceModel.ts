@@ -3,8 +3,8 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IService extends Document {
   title: string;
+  frontImage: string;
   description: string;
-  img: string;
   icon: string;
   points: string[];
   options: mongoose.Types.ObjectId[];
@@ -13,8 +13,8 @@ export interface IService extends Document {
 
 const ServiceSchema: Schema<IService> = new Schema({
   title: { type: String, required: true },
+  frontImage: { type: String, required: true },
   description: { type: String, required: true },
-  img: { type: String, required: true },
   icon: { type: String, required: true },
   points: [{ type: String }],
   options: [{ type: mongoose.Schema.Types.ObjectId, ref: "ServiceOption" }],

@@ -5,7 +5,7 @@
     "lib": [
       "es6"
     ] /* Inclure les déclarations de bibliothèque compatibles pour l'environnement cible */,
-
+    "typeRoots": ["./node_modules/@types", "./@types"],
     /* Modules */
     "module": "commonjs" /* Spécifier le type de module généré (CommonJS est utilisé pour Node.js) */,
     "rootDir": "./src" /* Définir le dossier racine des fichiers source */,

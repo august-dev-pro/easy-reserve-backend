@@ -8,8 +8,12 @@ export interface ITaskerSpecifics extends Document {
   servicesOfferedOptions: mongoose.Types.ObjectId[];
   experienceYears: number;
   bio: string;
+  rate: number;
   location: string;
   availability: string[];
+  workingImages: string[];
+  status: string;
+  domaine: string;
 }
 
 const TaskerSpecificsSchema: Schema<ITaskerSpecifics> = new Schema({
@@ -20,8 +24,12 @@ const TaskerSpecificsSchema: Schema<ITaskerSpecifics> = new Schema({
   ],
   experienceYears: { type: Number, required: true },
   bio: { type: String, required: true },
+  rate: { type: Number },
   location: { type: String, required: true },
   availability: [{ type: String }],
+  workingImages: [{ type: String }],
+  status: { type: String },
+  domaine: { type: String },
 });
 
 const TaskerSpecificsModel = mongoose.model<ITaskerSpecifics>(

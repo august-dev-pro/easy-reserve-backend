@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
 import userModel, { IUser } from "../models/userModel";
 import { ErrorHandler } from "../utils/errorHandle";
+import mongoose from "mongoose";
 
-export const createUser = async (userData: IUser) => {
+const createUser = async (userData: IUser) => {
   try {
     // Vérification de l'existence de l'utilisateur
     const existingUser = await userModel.findOne({ email: userData.email });
@@ -27,38 +28,135 @@ export const createUser = async (userData: IUser) => {
   }
 };
 
-export const loginUser = async (userData: {
-  email: string;
-  password: string;
-}) => {
+const updateUser = async (
+  userId: string,
+  userData: IUser
+): Promise<IUser | null> => {
   try {
-    const { email, password } = userData;
-
-    // Recherche de l'utilisateur par email
-    const user = await userModel.findOne({ email });
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    // Vérification du mot de passe
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      throw new Error("Invalid credentials");
-    }
-
-    // Retourner l'utilisateur si l'authentification est réussie
+    const user = await userModel.findByIdAndUpdate(userId, userData, {
+      new: true,
+      runValidators: true,
+    });
     return user;
   } catch (error: any) {
-    console.error("Error logging in user:", error.message);
+    throw new ErrorHandler(
+      500,
+      "Erreur lors de la mise à jour de l'utilisateur",
+      {
+        stack: error.stack,
+        message: error.message,
+      }
+    );
+  }
+};
 
-    // Lever l'erreur pour que le contrôleur puisse la gérer
-    throw new Error(error.message || "An error occurred during user login.");
+const deleteOneUser = async (userId: string): Promise<IUser | null> => {
+  try {
+    const user = await userModel.findOneAndDelete({ _id: userId });
+    return user;
+  } catch (error: any) {
+    throw new ErrorHandler(
+      500,
+      "Erreur lors de la suppression de l'utilisateur",
+      {
+        stack: error.stack,
+        message: error.message,
+      }
+    );
+  }
+};
+
+const getAllUsers = async (): Promise<IUser[]> => {
+  try {
+    const users = await userModel.find();
+    return users;
+  } catch (error: any) {
+    throw new ErrorHandler(
+      500,
+      "erreur lors de la recuperation de l'utilisateur ",
+      {
+        stack: error.stack,
+        message: error.message,
+      }
+    );
+  }
+};
+
+const getUserById = async (userId: string): Promise<IUser | null> => {
+  try {
+    const user = userModel.findById({ _id: userId });
+    return user;
+  } catch (error: any) {
+    throw new ErrorHandler(
+      500,
+      `erreur lors de la recuperation de l'utilisateur: ${userId}`,
+      {
+        stack: error.stack,
+        message: error.message,
+      }
+    );
+  }
+};
+
+const deleteManyUsers = async (usersIds: string[]): Promise<IUser[] | null> => {
+  try {
+    const result = await userModel.deleteMany({
+      _id: { $in: usersIds.map((id) => new mongoose.Types.ObjectId(id)) },
+    });
+    if (result.deletedCount === 0) {
+      throw new ErrorHandler(500, "No users were deleted");
+    }
+
+    return result.deletedCount > 0
+      ? await userModel.find({
+          _id: { $in: usersIds.map((id) => new mongoose.Types.ObjectId(id)) },
+        })
+      : null;
+  } catch (error: any) {
+    throw new ErrorHandler(500, "Error deleting users", {
+      errorMessage: error.message,
+      stack: error.stack,
+    });
+  }
+};
+
+const updateUserProfileImageInDb = async (
+  userId: string,
+  profileImage: string
+) => {
+  try {
+    // Convertir le chemin absolu en chemin relatif
+    const relativeImagePath = profileImage.replace(
+      `${process.cwd()}\\src\\uploads\\profileImages\\`,
+      ""
+    );
+
+    const updateImgdUser = await userModel.findByIdAndUpdate(
+      userId,
+      { profileImage: relativeImagePath },
+      { new: true }
+    );
+    return updateImgdUser;
+  } catch (error: any) {
+    throw new ErrorHandler(
+      400,
+      `erreur lors de la sauvegarde des infos de profilImage: [userId:${userId}, profilImage:${profileImage}]`,
+      {
+        errorMessage: error.message,
+        stack: error.stack,
+      }
+    );
   }
 };
 
 const userService = {
   createUser,
-  loginUser,
+  updateUser,
+  deleteOneUser,
+  getAllUsers,
+  getUserById,
+  deleteManyUsers,
+  updateUserProfileImageInDb,
 };
 
 export default userService;

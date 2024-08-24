@@ -1,4 +1,5 @@
 import { IUser } from "../src/models/userModel";
+import { Request } from "express";
 
 declare global {
   namespace Express {

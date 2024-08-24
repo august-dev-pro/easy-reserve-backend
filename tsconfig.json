@@ -22,7 +22,9 @@
     /* Completeness */
     "forceConsistentCasingInFileNames": true /* Assurez-vous que la casse est correcte dans les imports */
   },
-  "include": ["src"] /* Inclure tous les fichiers dans le dossier "src" */,
+
+  "include": ["src", "types", "@types", "node_modules"],
+
   "exclude": [
     "node_modules",
     "dist"

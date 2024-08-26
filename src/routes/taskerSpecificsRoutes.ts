@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { taskerSpecificsController } from "../controllers/taskerSpecificsController";
+import { uploadMiddleware } from "../middlewares/uploadMiddleware";
 
 const taskerSpecificsRouter = Router();
 

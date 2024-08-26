@@ -2,23 +2,34 @@ import { NextFunction, Request, Response } from "express";
 import userService from "../services/userService";
 import { ErrorHandler } from "../utils/errorHandle";
 import path from "path";
+import { IUser } from "../models/userModel";
 
 const registerUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  const profilImage = req.file
+    ? path.relative(process.cwd(), req.file.path)
+    : "";
+  const userData: IUser = { ...req.body, profileImage: profilImage };
+
   try {
-    const user = await userService.createUser(req.body);
-    res.status(201).json(user);
+    const user = await userService.create(userData);
+    res.status(201).json({
+      message: "user created succeffuly",
+      user: user,
+    });
   } catch (error: any) {
     return next(
       new ErrorHandler(400, "erreur lors de la creation de l'utilisateur", {
         error: error.message,
+        stack: error.stack,
       })
     );
   }
 };
+
 const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await userService.getAllUsers();

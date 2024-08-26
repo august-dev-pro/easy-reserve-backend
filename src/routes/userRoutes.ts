@@ -6,7 +6,12 @@ import uploadErrorHandler from "../utils/uploadErrorHandler";
 
 const userRouter = Router();
 
-userRouter.post("/register", userController.registerUser);
+userRouter.post(
+  "/",
+  uploadMiddleware.uploadImage("usersImages").single("profileImage"),
+  userController.registerUser,
+  uploadErrorHandler
+);
 
 //protected routes
 // userRouter.use(authMiddleware);

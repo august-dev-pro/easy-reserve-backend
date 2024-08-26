@@ -1,9 +1,10 @@
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 import userModel, { IUser } from "../models/userModel";
 import { ErrorHandler } from "../utils/errorHandle";
 import mongoose from "mongoose";
+import { hashPassword } from "../utils/hashPassword";
 
-const createUser = async (userData: IUser) => {
+const create = async (userData: IUser) => {
   try {
     // Vérification de l'existence de l'utilisateur
     const existingUser = await userModel.findOne({ email: userData.email });
@@ -12,13 +13,14 @@ const createUser = async (userData: IUser) => {
     }
 
     // Hashage du mot de passe
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    const hashedPassword = await hashPassword(userData.password);
 
     // Création de l'utilisateur
-    return await userModel.create({
+    const user = await userModel.create({
       ...userData,
       password: hashedPassword,
     });
+    return user;
   } catch (error: any) {
     throw new ErrorHandler(
       500,
@@ -150,7 +152,7 @@ const updateUserProfileImageInDb = async (
 };
 
 const userService = {
-  createUser,
+  create,
   updateUser,
   deleteOneUser,
   getAllUsers,

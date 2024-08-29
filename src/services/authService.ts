@@ -26,7 +26,7 @@ export const authentification = async (userData: {
     const token = jwt.sign(
       { userId: user._id, email: user.email, role: user.role },
       process.env.JWT_SECRET!,
-      { expiresIn: "1h" }
+      { expiresIn: "3h" }
     );
     return token;
   } catch (error: any) {

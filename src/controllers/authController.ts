@@ -10,6 +10,6 @@ export const loginUser = async (req: Request, res: Response) => {
     res.header("Authorization", `Bearer ${token}`);
     res.status(200).json({ message: "Authentification réussie", token });
   } catch (error: any) {
-    res.status(401).json({ errormessage: error.message });
+    res.status(401).json({ errormessage: error.message, stack: error.stack });
   }
 };

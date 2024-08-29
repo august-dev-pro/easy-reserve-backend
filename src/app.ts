@@ -18,7 +18,10 @@ const app = express();
 
 // Configuration CORS
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: [
+    "http://localhost:3000",
+    "https://easy-reserve-backend-production.up.railway.app",
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   optionsSuccessStatus: 200,

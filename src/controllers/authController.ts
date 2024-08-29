@@ -3,6 +3,8 @@ import { authentification } from "../services/authService";
 
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
+  console.log(req);
+
   try {
     const token = await authentification({ email, password });
     res.header("Authorization", `Bearer ${token}`);

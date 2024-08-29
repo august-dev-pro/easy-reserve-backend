@@ -12,6 +12,7 @@ import TaskerSpecificsRouter from "./routes/taskerSpecificsRoutes";
 import ReviewRouter from "./routes/reviewRoutes";
 import path from "path";
 import serviceOptionsRouter from "./routes/serviceOptionRoutes";
+import { listRoutes } from "./utils/listRoutes";
 
 dotenv.config();
 const app = express();
@@ -32,24 +33,29 @@ app.use(cors(corsOptions));
 connectedDb();
 
 app.use(express.json());
-//user route
+
+// Routes
 app.use("/user", UserRouter);
-//comment route
 app.use("/comment", CommentRouter);
-//reservation route
 app.use("/reservation", ReservationRouter);
-//service route
 app.use("/service", ServiceRouter);
-//taskerSpecifics route
 app.use("/taskerSpecifics", TaskerSpecificsRouter);
-//review route
 app.use("/review", ReviewRouter);
-//auth route
 app.use("/auth", AuthRouter);
-//serviceoptions routes
 app.use("/serviceOptions", serviceOptionsRouter);
-// Serve the static files from the 'uploads' directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// Middleware pour lister toutes les routes
+app.use("/", (req, res, next) => {
+  console.log("Liste des routes disponibles:");
+  const routes = listRoutes(app._router);
+  routes.forEach((route) => {
+    console.log(`${route.method} -> ${route.path}`);
+  });
+  next();
+});
+
 // Middleware de gestion des erreurs
 app.use(errorMiddleware);
+
 export default app;

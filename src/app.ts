@@ -13,6 +13,9 @@ import ReviewRouter from "./routes/reviewRoutes";
 import path from "path";
 import serviceOptionsRouter from "./routes/serviceOptionRoutes";
 
+import authController from "./controllers/authController";
+import Router from "express";
+const authDisgress = Router();
 dotenv.config();
 const app = express();
 
@@ -42,6 +45,7 @@ app.use("/service", ServiceRouter);
 app.use("/taskerSpecifics", TaskerSpecificsRouter);
 app.use("/review", ReviewRouter);
 app.use("/auth", AuthRouter);
+app.use("/logout", authDisgress.post("/", authController.logoutUser));
 app.use("/serviceOptions", serviceOptionsRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

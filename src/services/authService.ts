@@ -1,9 +1,10 @@
+import tokenBlacklist from "../models/tokenBlacklist";
 import userModel from "../models/userModel";
 import { ErrorHandler } from "../utils/errorHandle";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const authentification = async (userData: {
+const authentification = async (userData: {
   email: string;
   password: string;
 }) => {
@@ -36,7 +37,22 @@ export const authentification = async (userData: {
     });
   }
 };
-
-const authService = [authentification];
+const logout = async (token: any) => {
+  try {
+    // Ajouter le token à la liste noire
+    const result = await tokenBlacklist.create({ token });
+    return result;
+  } catch (error: any) {
+    throw new ErrorHandler(
+      500,
+      "Erreur lors de l'ajout du token à la liste noire.",
+      {
+        errorMessage: error.message,
+        stack: error.stack,
+      }
+    );
+  }
+};
+const authService = { authentification, logout };
 
 export default authService;

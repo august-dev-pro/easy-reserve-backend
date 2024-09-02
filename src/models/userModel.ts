@@ -5,7 +5,7 @@ export interface IUser extends Document {
   lastName: string;
   email: string;
   password: string;
-  role: "user" | "tasker" | "admin" | "admin & tasker";
+  role: "user" | "tasker" | "admin" | "admin & tasker" | "super-admin";
   profileImage: string;
   phone: string;
   address?: string;

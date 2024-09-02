@@ -23,6 +23,7 @@ const corsOptions = {
     "https://easy-reserve-backend-production.up.railway.app",
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
   optionsSuccessStatus: 200,
 };

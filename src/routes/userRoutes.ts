@@ -3,6 +3,7 @@ import authMiddleware from "../middlewares/authMiddleware";
 import { userController } from "../controllers/UserController";
 import { uploadMiddleware } from "../middlewares/uploadMiddleware";
 import uploadErrorHandler from "../utils/uploadErrorHandler";
+import authController from "../controllers/authController";
 
 const userRouter = Router();
 
@@ -30,6 +31,8 @@ userRouter.post(
   userController.updateUserProfileImage,
   uploadErrorHandler
 );
+
+userRouter.post("deconnexion", authController.logoutUser);
 
 // Route pour ajouter une image à la story de l'utilisateur
 

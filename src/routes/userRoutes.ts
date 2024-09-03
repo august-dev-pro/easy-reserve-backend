@@ -13,7 +13,7 @@ userRouter.post(
   userController.registerUser,
   uploadErrorHandler
 );
-userRouter.post("/deco", authController.logoutUser);
+userRouter.get("/auth", authController.logoutUser);
 //protected routes
 // userRouter.use(authMiddleware);
 userRouter.get("/", authMiddleware, userController.getAllUsers);

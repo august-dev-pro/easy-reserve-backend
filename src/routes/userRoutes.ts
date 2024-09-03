@@ -32,7 +32,7 @@ userRouter.post(
   uploadErrorHandler
 );
 
-userRouter.post("deconnexion", authController.logoutUser);
+userRouter.post("/deconnexion", authController.logoutUser);
 
 // Route pour ajouter une image à la story de l'utilisateur
 

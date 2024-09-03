@@ -27,7 +27,7 @@ const corsOptions = {
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: ["Content-Type", "Authorization", "cookies"],
   optionsSuccessStatus: 200,
 };
 
@@ -44,8 +44,8 @@ app.use("/reservation", ReservationRouter);
 app.use("/service", ServiceRouter);
 app.use("/taskerSpecifics", TaskerSpecificsRouter);
 app.use("/review", ReviewRouter);
-app.use("/authentification", AuthRouter);
-app.use("/logout", authDisgress.post("/", authController.logoutUser));
+app.use("/auth", AuthRouter);
+app.use("/sign-out", authDisgress.post("/", authController.logoutUser));
 app.use("/serviceOptions", serviceOptionsRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

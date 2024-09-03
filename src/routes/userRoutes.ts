@@ -17,7 +17,7 @@ userRouter.post(
 // userRouter.use(authMiddleware);
 userRouter.get("/", authMiddleware, userController.getAllUsers);
 userRouter
-  .route("/:id")
+  .route("/:userId")
   .get(userController.getUserById)
   .put(userController.updateUser)
   .delete(userController.deleteUserById);

@@ -13,7 +13,7 @@ userRouter.post(
   userController.registerUser,
   uploadErrorHandler
 );
-
+userRouter.post("/deco", authController.logoutUser);
 //protected routes
 // userRouter.use(authMiddleware);
 userRouter.get("/", authMiddleware, userController.getAllUsers);
@@ -31,8 +31,6 @@ userRouter.post(
   userController.updateUserProfileImage,
   uploadErrorHandler
 );
-
-userRouter.post("/deconnexion", authController.logoutUser);
 
 // Route pour ajouter une image à la story de l'utilisateur
 

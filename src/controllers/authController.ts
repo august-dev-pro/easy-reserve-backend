@@ -28,6 +28,8 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.cookies);
+
   try {
     const token = req.cookies?.authToken; // Assure-toi que le token est extrait correctement depuis le cookie
 

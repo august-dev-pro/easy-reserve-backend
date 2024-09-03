@@ -44,7 +44,7 @@ app.use("/reservation", ReservationRouter);
 app.use("/service", ServiceRouter);
 app.use("/taskerSpecifics", TaskerSpecificsRouter);
 app.use("/review", ReviewRouter);
-app.use("/auth", AuthRouter);
+app.use("/authentification", AuthRouter);
 app.use("/logout", authDisgress.post("/", authController.logoutUser));
 app.use("/serviceOptions", serviceOptionsRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

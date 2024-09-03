@@ -38,7 +38,7 @@ connectedDb();
 app.use(express.json());
 
 // Routes
-app.use("/user", UserRouter);
+app.use("/clients", UserRouter);
 app.use("/comment", CommentRouter);
 app.use("/reservation", ReservationRouter);
 app.use("/service", ServiceRouter);

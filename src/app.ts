@@ -27,7 +27,7 @@ const corsOptions = {
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization", "cookies"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   optionsSuccessStatus: 200,
 };
 
@@ -38,7 +38,7 @@ connectedDb();
 app.use(express.json());
 
 // Routes
-app.use("/clients", UserRouter);
+app.use("/user", UserRouter);
 app.use("/comment", CommentRouter);
 app.use("/reservation", ReservationRouter);
 app.use("/service", ServiceRouter);

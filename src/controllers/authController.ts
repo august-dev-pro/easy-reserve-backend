@@ -31,7 +31,7 @@ const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
   console.log(req.cookies);
 
   try {
-    /*    const token = req.cookies?.authToken; // Assure-toi que le token est extrait correctement depuis le cookie
+    const token = req.cookies?.authToken; // Assure-toi que le token est extrait correctement depuis le cookie
 
     if (!token) {
       return res.status(400).json({
@@ -43,7 +43,7 @@ const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
     await authService.logout(token); // Invalide le token en l'ajoutant à la liste noire
 
     // Supprime le cookie du client
-    res.clearCookie("authToken"); */
+    res.clearCookie("authToken");
 
     return res.status(200).json({
       statusCode: 200,

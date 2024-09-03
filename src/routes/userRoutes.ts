@@ -3,7 +3,6 @@ import authMiddleware from "../middlewares/authMiddleware";
 import { userController } from "../controllers/UserController";
 import { uploadMiddleware } from "../middlewares/uploadMiddleware";
 import uploadErrorHandler from "../utils/uploadErrorHandler";
-import authController from "../controllers/authController";
 
 const userRouter = Router();
 
@@ -13,10 +12,10 @@ userRouter.post(
   userController.registerUser,
   uploadErrorHandler
 );
-userRouter.post("/auth", authController.logoutUser);
+
 //protected routes
 // userRouter.use(authMiddleware);
-userRouter.get("/", userController.getAllUsers);
+userRouter.get("/", authMiddleware, userController.getAllUsers);
 userRouter
   .route("/:id")
   .get(userController.getUserById)

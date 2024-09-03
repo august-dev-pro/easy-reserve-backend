@@ -34,7 +34,7 @@ const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies?.authToken; // Assure-toi que le token est extrait correctement depuis le cookie
 
     if (!token) {
-      return res.status(404).json({
+      return res.status(400).json({
         statusCode: 404,
         message: "Aucun token trouvé dans les cookies",
       });

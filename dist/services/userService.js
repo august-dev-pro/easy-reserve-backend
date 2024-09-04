@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const userModel_1 = __importDefault(require("../models/userModel"));
 const errorHandle_1 = require("../utils/errorHandle");
 const mongoose_1 = __importDefault(require("mongoose"));
-const createUser = (userData) => __awaiter(void 0, void 0, void 0, function* () {
+const hashPassword_1 = require("../utils/hashPassword");
+const create = (userData) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Vérification de l'existence de l'utilisateur
         const existingUser = yield userModel_1.default.findOne({ email: userData.email });
@@ -24,9 +24,10 @@ const createUser = (userData) => __awaiter(void 0, void 0, void 0, function* () 
             throw new errorHandle_1.ErrorHandler(400, "User already exists");
         }
         // Hashage du mot de passe
-        const hashedPassword = yield bcrypt_1.default.hash(userData.password, 10);
+        const hashedPassword = yield (0, hashPassword_1.hashPassword)(userData.password);
         // Création de l'utilisateur
-        return yield userModel_1.default.create(Object.assign(Object.assign({}, userData), { password: hashedPassword }));
+        const user = yield userModel_1.default.create(Object.assign(Object.assign({}, userData), { password: hashedPassword }));
+        return user;
     }
     catch (error) {
         throw new errorHandle_1.ErrorHandler(500, error.message || "An error occurred while creating the user.", error.stack);
@@ -119,7 +120,7 @@ const updateUserProfileImageInDb = (userId, profileImage) => __awaiter(void 0, v
     }
 });
 const userService = {
-    createUser,
+    create,
     updateUser,
     deleteOneUser,
     getAllUsers,

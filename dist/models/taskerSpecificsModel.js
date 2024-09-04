@@ -27,8 +27,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const TaskerSpecificsSchema = new mongoose_1.Schema({
     user: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "User", required: true },
-    servicesOffered: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "Service" },
-    servicesOfferedOptions: [
+    domaine: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "Service" },
+    serviceOfferedOptions: [
         { type: mongoose_1.default.Schema.Types.ObjectId, ref: "ServiceOption" },
     ],
     experienceYears: { type: Number, required: true },
@@ -36,9 +36,11 @@ const TaskerSpecificsSchema = new mongoose_1.Schema({
     rate: { type: Number },
     location: { type: String, required: true },
     availability: [{ type: String }],
-    workingImages: [{ type: String }],
-    status: { type: String },
-    domaine: { type: String },
+    status: {
+        type: String,
+        enum: ["new", "medium", "expert"],
+        default: "new",
+    },
 });
 const TaskerSpecificsModel = mongoose_1.default.model("TaskerSpecifics", TaskerSpecificsSchema);
 exports.default = TaskerSpecificsModel;

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authentification = void 0;
+const tokenBlacklist_1 = __importDefault(require("../models/tokenBlacklist"));
 const userModel_1 = __importDefault(require("../models/userModel"));
 const errorHandle_1 = require("../utils/errorHandle");
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -31,7 +31,7 @@ const authentification = (userData) => __awaiter(void 0, void 0, void 0, functio
             throw new Error("Invalid credentials");
         }
         // Génération d'un token JWT si l'authentification est réussie
-        const token = jsonwebtoken_1.default.sign({ userId: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jsonwebtoken_1.default.sign({ userId: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: "3h" });
         return token;
     }
     catch (error) {
@@ -41,6 +41,18 @@ const authentification = (userData) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
-exports.authentification = authentification;
-const authService = [exports.authentification];
+const logout = (token) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Ajouter le token à la liste noire
+        const result = yield tokenBlacklist_1.default.create({ token });
+        return result;
+    }
+    catch (error) {
+        throw new errorHandle_1.ErrorHandler(500, "Erreur lors de l'ajout du token à la liste noire.", {
+            errorMessage: error.message,
+            stack: error.stack,
+        });
+    }
+});
+const authService = { authentification, logout };
 exports.default = authService;

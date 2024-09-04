@@ -4,16 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const authMiddleware_1 = __importDefault(require("../middlewares/authMiddleware"));
 const UserController_1 = require("../controllers/UserController");
 const uploadMiddleware_1 = require("../middlewares/uploadMiddleware");
 const uploadErrorHandler_1 = __importDefault(require("../utils/uploadErrorHandler"));
 const userRouter = (0, express_1.Router)();
-userRouter.post("/register", UserController_1.userController.registerUser);
+userRouter.post("/", uploadMiddleware_1.uploadMiddleware.uploadImage("usersImages").single("profileImage"), UserController_1.userController.registerUser, uploadErrorHandler_1.default);
 //protected routes
 // userRouter.use(authMiddleware);
-userRouter.get("/", UserController_1.userController.getAllUsers);
+userRouter.get("/", authMiddleware_1.default, UserController_1.userController.getAllUsers);
 userRouter
-    .route("/:id")
+    .route("/:userId")
     .get(UserController_1.userController.getUserById)
     .put(UserController_1.userController.updateUser)
     .delete(UserController_1.userController.deleteUserById);

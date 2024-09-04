@@ -17,13 +17,21 @@ const userService_1 = __importDefault(require("../services/userService"));
 const errorHandle_1 = require("../utils/errorHandle");
 const path_1 = __importDefault(require("path"));
 const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const profilImage = req.file
+        ? path_1.default.relative(process.cwd(), req.file.path)
+        : "";
+    const userData = Object.assign(Object.assign({}, req.body), { profileImage: profilImage });
     try {
-        const user = yield userService_1.default.createUser(req.body);
-        res.status(201).json(user);
+        const user = yield userService_1.default.create(userData);
+        res.status(201).json({
+            message: "user created succeffuly",
+            user: user,
+        });
     }
     catch (error) {
         return next(new errorHandle_1.ErrorHandler(400, "erreur lors de la creation de l'utilisateur", {
             error: error.message,
+            stack: error.stack,
         }));
     }
 });

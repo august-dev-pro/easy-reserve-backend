@@ -2,5 +2,5 @@
   "version": 2,
   "name": "tuto",
   "builds": [{ "src": "dist/server.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "/dist/server.js" }]
+  "routes": [{ "src": "/(.*)", "dest": "./dist/server.js" }]
 }

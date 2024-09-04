@@ -15,6 +15,7 @@ import serviceOptionsRouter from "./routes/serviceOptionRoutes";
 
 import authController from "./controllers/authController";
 import Router from "express";
+import { METHODS } from "http";
 const authDisgress = Router();
 dotenv.config();
 const app = express();
@@ -31,12 +32,6 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-app.use(cors(corsOptions));
-
-connectedDb();
-
-app.use(express.json());
-// permettre l'accès à l'API (CORS)
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -49,13 +44,32 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
+  res.setHeader("optionsSuccessStatus", 200);
+  res.setHeader("origin", [
+    "http://localhost:3000",
+    "https://easy-reserve-backend-production.up.railway.app",
+  ]);
   next();
 });
 
-app.use((req, res) => {
-  res.json({ message: "api start end point" });
-});
+connectedDb();
+
+app.use(express.json());
 // Routes
+// Route par défaut
+app.get("/", (req, res) => {
+  try {
+    res.status(200).json({
+      statusCode: 200,
+      message: "Bienvenue sur EasyReserve API",
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      statusCode: 500,
+      message: "Une erreur est survenue.",
+    });
+  }
+});
 app.use("/user", UserRouter);
 app.use("/comment", CommentRouter);
 app.use("/reservation", ReservationRouter);

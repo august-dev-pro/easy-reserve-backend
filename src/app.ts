@@ -31,24 +31,27 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
   optionsSuccessStatus: 200,
 };
-
+app.use(cors(corsOptions));
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    [
+      "http://localhost:3000",
+      "https://easy-reserve-backend-mzfv.onrender.com",
+      "https://esea-reserve.vercel.app", // Ajoutez l'URL de production de votre frontend
+    ].join(",")
+  );
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Max-Age", "1800");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "X-CSRF-Token,Origin, X-Requested-With, Content, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
+    "X-CSRF-Token, Origin, X-Requested-With, Content, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
   res.setHeader("optionsSuccessStatus", 200);
-  res.setHeader("origin", [
-    "http://localhost:3000",
-    "https://easy-reserve-backend-production.up.railway.app",
-  ]);
   next();
 });
 

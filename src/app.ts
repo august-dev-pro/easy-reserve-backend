@@ -80,7 +80,6 @@ app.use("/service", ServiceRouter);
 app.use("/taskerSpecifics", TaskerSpecificsRouter);
 app.use("/review", ReviewRouter);
 app.use("/auth", AuthRouter);
-app.use("/sign-out", authDisgress.post("/", authController.logoutUser));
 app.use("/serviceOptions", serviceOptionsRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

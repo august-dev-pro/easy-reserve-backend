@@ -18,7 +18,7 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
     return res.status(200).json({
       statusCode: 200,
       message: "Authentification réussie",
-      tooken: token,
+      token: token,
     });
   } catch (error: any) {
     return res

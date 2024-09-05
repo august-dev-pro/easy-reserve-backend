@@ -22,12 +22,16 @@ const app = express();
 
 // Configuration CORS
 const corsOptions = {
-  origin: ["http://localhost:3000"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
+  origin: [
+    "http://localhost:3000", // Localhost pour le développement
+    "https://esea-reserve.vercel.app", // Frontend en production
+    "https://easy-reserve-backend-mzfv.onrender.com", // Backend en production
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true, // Si vous utilisez des cookies ou des identifiants
   allowedHeaders: ["Content-Type", "Authorization"],
-  optionsSuccessStatus: 200,
 };
+
 app.use(cors(corsOptions));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");

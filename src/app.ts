@@ -22,10 +22,7 @@ const app = express();
 
 // Configuration CORS
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "https://easy-reserve-backend-production.up.railway.app",
-  ],
+  origin: ["http://localhost:3000"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -33,11 +30,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-
-    "http://localhost:3000"
-  );
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Max-Age", "1800");
   res.setHeader(

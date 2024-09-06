@@ -1,40 +1,47 @@
 import express from "express";
 import dotenv from "dotenv";
+import path from "path";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+
+import connectedDb from "./config/db";
 import UserRouter from "./routes/userRoutes";
 import AuthRouter from "./routes/authRoutes";
-import errorMiddleware from "./middlewares/errorMiddleware";
-import cors from "cors";
-import connectedDb from "./config/db";
 import CommentRouter from "./routes/commentRoutes";
 import ReservationRouter from "./routes/reservationRoutes";
 import ServiceRouter from "./routes/serviceRoutes";
 import TaskerSpecificsRouter from "./routes/taskerSpecificsRoutes";
 import ReviewRouter from "./routes/reviewRoutes";
-import path from "path";
 import serviceOptionsRouter from "./routes/serviceOptionRoutes";
+import errorMiddleware from "./middlewares/errorMiddleware";
 
-import authController from "./controllers/authController";
-import Router from "express";
-import { METHODS } from "http";
-const authDisgress = Router();
 dotenv.config();
 const app = express();
 
-// Configuration CORS
+// Connect to the database
+connectedDb();
+
+// Middleware: CORS configuration
 const corsOptions = {
   origin: [
-    "http://localhost:3000", // Localhost pour le développement
-    "https://esea-reserve.vercel.app", // Frontend en production
-    "https://easy-reserve-backend-mzfv.onrender.com", // Backend en production
-  ],
+    "http://localhost:3000",
+    "https://easy-reserve-backend-mzfv.onrender.com",
+    "https://esea-reserve.vercel.app",
+  ], // Localhost for development
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true, // Si vous utilisez des cookies ou des identifiants
+  credentials: true, // Allow credentials (cookies)
   allowedHeaders: ["Content-Type", "Authorization"],
 };
-
 app.use(cors(corsOptions));
+
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+
+    "http://localhost:3000"
+    /* "https://easy-reserve-backend-production.up.railway.app",
+      "https://esea-reserve.vercel.app", */ // Ajoutez l'URL de production de votre frontend
+  );
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Max-Age", "1800");
   res.setHeader(
@@ -49,11 +56,20 @@ app.use((req, res, next) => {
   next();
 });
 
-connectedDb();
-
+// Middleware: JSON parsing and cookie parsing
 app.use(express.json());
+app.use(cookieParser());
+
+// Middleware: Log cookies for debugging
+app.use((req, res, next) => {
+  console.log("Cookies:", req.headers.cookie); // For checking cookies
+  next();
+});
+
+// Static files for uploads
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 // Routes
-// Route par défaut
 app.get("/", (req, res) => {
   try {
     res.status(200).json({
@@ -75,19 +91,8 @@ app.use("/taskerSpecifics", TaskerSpecificsRouter);
 app.use("/review", ReviewRouter);
 app.use("/auth", AuthRouter);
 app.use("/serviceOptions", serviceOptionsRouter);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Middleware pour lister toutes les routes
-/* app.use("/", (req, res, next) => {
-  console.log("Liste des routes disponibles:");
-  const routes = listRoutes(app._router);
-  routes.forEach((route) => {
-    console.log(`${route.method} -> ${route.path}`);
-  });
-  next();
-}); */
-
-// Middleware de gestion des erreurs
+// Middleware: Error handling
 app.use(errorMiddleware);
 
 export default app;

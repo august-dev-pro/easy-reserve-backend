@@ -1,4 +1,4 @@
-import tokenBlacklist from "../models/tokenBlacklist";
+import tokenBlacklist, { JwtPayload } from "../models/tokenBlacklist";
 import userModel from "../models/userModel";
 import { ErrorHandler } from "../utils/errorHandle";
 import bcrypt from "bcrypt";
@@ -39,8 +39,14 @@ const authentification = async (userData: {
 };
 const logout = async (token: any) => {
   try {
+    const decodedToken = jwt.decode(token) as JwtPayload | null;
+
+    if (!decodedToken || !decodedToken.exp) {
+      throw new Error("Token invalide ou expiration non trouvée");
+    }
+    const expiresAt = new Date(decodedToken.exp * 1000);
     // Ajouter le token à la liste noire
-    const result = await tokenBlacklist.create({ token });
+    const result = await tokenBlacklist.create({ token, expiresAt });
     return result;
   } catch (error: any) {
     throw new ErrorHandler(

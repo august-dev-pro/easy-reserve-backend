@@ -29,7 +29,14 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.cookies?.authToken; // Assure-toi que le token est extrait correctement depuis le cookie
+    const cookies = req.headers.cookie; // Obtenir la chaîne des cookies
+    const cookieArr = cookies?.split(";") || []; // Diviser la chaîne des cookies en un tableau
+    const authTokenCookie = cookieArr.find((cookie) =>
+      cookie.trim().startsWith("authToken=")
+    ); // Trouver le cookie authToken
+
+    const token = authTokenCookie ? authTokenCookie.split("=")[1] : undefined; // Extraire la valeur du cookie
+    console.log("Token:", req.headers.cookie);
 
     if (!token) {
       return res.status(400).json({

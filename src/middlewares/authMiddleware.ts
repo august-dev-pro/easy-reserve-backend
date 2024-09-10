@@ -30,7 +30,6 @@ const authMiddleware = async (
 
     // Attacher les informations utilisateur décodées à req.user
     req.user = decoded;
-
     // Passer au middleware suivant
     next();
   } catch (error: any) {

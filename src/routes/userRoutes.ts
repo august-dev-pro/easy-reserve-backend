@@ -5,7 +5,6 @@ import { uploadMiddleware } from "../middlewares/uploadMiddleware";
 import uploadErrorHandler from "../utils/uploadErrorHandler";
 
 const userRouter = Router();
-
 userRouter.post(
   "/",
   uploadMiddleware.uploadImage("usersImages").single("profileImage"),
@@ -23,6 +22,7 @@ userRouter
   .delete(userController.deleteUserById);
 userRouter.delete("/delete-many", userController.deleteManyUsers);
 // Route for updating the profile image
+
 // Route pour mettre à jour la photo de profil de l'utilisateur
 userRouter.post(
   "/:id/profile-image",

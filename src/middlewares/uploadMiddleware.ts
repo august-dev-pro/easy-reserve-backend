@@ -22,6 +22,7 @@ const createStorage = (folder: string) => {
     },
   });
 };
+
 const fileFilter = (req: any, file: any, cb: any) => {
   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
     cb(null, true);
@@ -49,37 +50,6 @@ const uploadImage = (specific: string) => {
     });
   }
 };
-/* const uploadServiceImage = (specific: string) => {
-  try {
-    const result = multer({
-      storage: createStorage(specific),
-      limits: { fileSize: 1024 * 1024 * 5 }, // Limite de 5MB
-      fileFilter: fileFilter,
-    });
-
-    if (!result) {
-      throw new ErrorHandler(400, "Erreur lors de la configuration de multer");
-    }
-    return result;
-  } catch (error: any) {
-    throw new ErrorHandler(400, "Erreur lors de la configuration de multer", {
-      errorMessage: error.message,
-      stack: error.stack,
-    });
-  }
-};
-
-const uploadServiceOptionImage = multer({
-  storage: createStorage("serviceOptionImages"),
-  limits: { fileSize: 1024 * 1024 * 5 },
-  fileFilter: fileFilter,
-});
-
-const uploadTaskerSpecificsImage = multer({
-  storage: createStorage("taskerSpecificsImages"),
-  limits: { fileSize: 1024 * 1024 * 5 },
-  fileFilter: fileFilter,
-}); */
 
 export const uploadMiddleware = {
   uploadImage,

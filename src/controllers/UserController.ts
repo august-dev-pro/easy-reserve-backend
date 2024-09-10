@@ -9,10 +9,11 @@ const registerUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const profilImage = req.file
-    ? path.relative(process.cwd(), req.file.path)
-    : "";
-  const userData: IUser = { ...req.body, profileImage: profilImage };
+  const filePath = req.file ? path.relative(process.cwd(), req.file.path) : "";
+  const cleanPath = filePath
+    .replace(/^src[\\\/]uploads[\\\/]/, "") // Retire "src/uploads"
+    .replace(/\\/g, "/"); // Remplace les \ par des /
+  const userData: IUser = { ...req.body, profileImage: cleanPath };
 
   try {
     const user = await userService.create(userData);

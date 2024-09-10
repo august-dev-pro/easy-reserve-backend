@@ -12,11 +12,6 @@ import TaskerSpecificsRouter from "./routes/taskerSpecificsRoutes";
 import ReviewRouter from "./routes/reviewRoutes";
 import path from "path";
 import serviceOptionsRouter from "./routes/serviceOptionRoutes";
-
-import authController from "./controllers/authController";
-import Router from "express";
-import { METHODS } from "http";
-const authDisgress = Router();
 dotenv.config();
 const app = express();
 
@@ -54,6 +49,8 @@ connectedDb();
 app.use(express.json());
 // Routes
 // Route par défaut
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 app.get("/", (req, res) => {
   try {
     res.status(200).json({
@@ -75,17 +72,6 @@ app.use("/taskerSpecifics", TaskerSpecificsRouter);
 app.use("/review", ReviewRouter);
 app.use("/auth", AuthRouter);
 app.use("/serviceOptions", serviceOptionsRouter);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// Middleware pour lister toutes les routes
-/* app.use("/", (req, res, next) => {
-  console.log("Liste des routes disponibles:");
-  const routes = listRoutes(app._router);
-  routes.forEach((route) => {
-    console.log(`${route.method} -> ${route.path}`);
-  });
-  next();
-}); */
 
 // Middleware de gestion des erreurs
 app.use(errorMiddleware);

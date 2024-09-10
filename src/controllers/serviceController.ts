@@ -163,11 +163,13 @@ const createService = async (
   if (!req.file) {
     return next(new ErrorHandler(400, "Aucune image n'a été envoyée"));
   }
-  const frontImage = req.file
-    ? path.relative(process.cwd(), req.file.path)
-    : ""; // Chemin du fichier stocké
+  const filePath = req.file ? path.relative(process.cwd(), req.file.path) : "";
+  const cleanPath = filePath
+    .replace(/^src[\\\/]uploads[\\\/]/, "") // Retire "src/uploads"
+    .replace(/\\/g, "/"); // Remplace les \ par des /
+
   const serviceData = req.body;
-  const serviceDatas: IService = { ...serviceData, frontImage: frontImage };
+  const serviceDatas: IService = { ...serviceData, frontImage: cleanPath };
 
   try {
     const service = await serviceService.create(serviceDatas);

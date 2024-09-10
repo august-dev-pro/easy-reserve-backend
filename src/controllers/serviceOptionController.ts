@@ -10,8 +10,13 @@ const createServiceOption = async (
   next: NextFunction
 ) => {
   try {
-    const image = req.file ? path.relative(process.cwd(), req.file.path) : "";
-    const serviceOptionData: IServiceOption = { ...req.body, image: image };
+    const filePath = req.file
+      ? path.relative(process.cwd(), req.file.path)
+      : "";
+    const cleanPath = filePath
+      .replace(/^src[\\\/]uploads[\\\/]/, "") // Retire "src/uploads"
+      .replace(/\\/g, "/"); // Remplace les \ par des /
+    const serviceOptionData: IServiceOption = { ...req.body, image: cleanPath };
     const serviceOption = await serviceOptionService.create(serviceOptionData);
     return res.status(201).json({
       statusCode: 201,

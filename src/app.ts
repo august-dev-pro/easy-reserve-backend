@@ -22,9 +22,9 @@ connectedDb();
 // Middleware: CORS configuration
 const corsOptions = {
   origin: [
+    "https://esea-reserve.vercel.app",
     "http://localhost:3000",
     "https://easy-reserve-backend-mzfv.onrender.com",
-    "https://esea-reserve.vercel.app",
   ], // Localhost for development
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true, // Allow credentials (cookies)
@@ -35,9 +35,9 @@ app.use(cors(corsOptions));
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
+    "https://esea-reserve.vercel.app"
 
-    "http://localhost:3000"
-    /* "https://easy-reserve-backend-production.up.railway.app",
+    /*   "http://localhost:3000", "https://easy-reserve-backend-production.up.railway.app",
       "https://esea-reserve.vercel.app", */ // Ajoutez l'URL de production de votre frontend
   );
   res.setHeader("Access-Control-Allow-Credentials", "true");

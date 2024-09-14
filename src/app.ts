@@ -56,10 +56,8 @@ app.use((req, res, next) => {
 
 // Middleware: JSON parsing and cookie parsing
 app.use(express.json());
-// Static files for uploads
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Routes
+// Static files for uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (req, res) => {

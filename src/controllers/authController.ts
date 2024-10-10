@@ -36,7 +36,6 @@ const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
     ); // Trouver le cookie authToken
 
     const token = authTokenCookie ? authTokenCookie.split("=")[1] : undefined; // Extraire la valeur du cookie
-    console.log("Token:", req.headers.cookie);
 
     if (!token) {
       return res.status(400).json({

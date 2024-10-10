@@ -3,11 +3,11 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IReservation extends Document {
-  user: mongoose.Types.ObjectId;
-  tasker: mongoose.Types.ObjectId;
-  service: mongoose.Types.ObjectId;
+  userId: mongoose.Types.ObjectId;
+  taskerId: mongoose.Types.ObjectId;
+  serviceId: mongoose.Types.ObjectId;
   options: mongoose.Types.ObjectId[];
-  reservaterAdress: string;
+  adress: string;
   date: Date;
   wever: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
@@ -15,15 +15,19 @@ export interface IReservation extends Document {
 }
 
 const ReservationSchema: Schema<IReservation> = new Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  tasker: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  service: {
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  taskerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  serviceId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Service",
     required: true,
   },
   options: [{ type: mongoose.Schema.Types.ObjectId, ref: "ServiceOption" }],
-  reservaterAdress: { type: String, required: true },
+  adress: { type: String, required: true },
   date: { type: Date, required: true },
   wever: { type: String, required: true },
   status: {

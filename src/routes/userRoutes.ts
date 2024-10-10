@@ -14,7 +14,7 @@ userRouter.post(
 
 //protected routes
 // userRouter.use(authMiddleware);
-userRouter.get("/", authMiddleware, userController.getAllUsers);
+userRouter.get("/", userController.getAllUsers);
 userRouter
   .route("/:userId")
   .get(userController.getUserById)

@@ -27,7 +27,7 @@ const TaskerSpecificsSchema: Schema<ITaskerSpecifics> = new Schema({
   availability: [{ type: String }],
   status: {
     type: String,
-    enum: ["new", "medium", "expert"],
+    enum: ["new", "medium", "certified "],
     default: "new",
   },
 });

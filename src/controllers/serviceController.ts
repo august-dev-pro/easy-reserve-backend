@@ -160,13 +160,18 @@ const createService = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!req.file) {
-    return next(new ErrorHandler(400, "Aucune image n'a été envoyée"));
+  if (!req.file || !req.file.mimetype.startsWith("image")) {
+    return next(
+      new ErrorHandler(400, "Le fichier envoyé n'est pas une image valide")
+    );
   }
+
   const filePath = req.file ? path.relative(process.cwd(), req.file.path) : "";
   const cleanPath = filePath
-    .replace(/^src[\\\/]uploads[\\\/]/, "") // Retire "src/uploads"
-    .replace(/\\/g, "/"); // Remplace les \ par des /
+    .replace(/^src[\\/]{1}uploads[\\/]{1}/, "")
+    .replace(/^dist[\\/]{1}uploads[\\/]{1}/, "")
+    // Remplacer les backslashes (\) par des slashes (/)
+    .replace(/\\/g, "/");
 
   const serviceData = req.body;
   const serviceDatas: IService = { ...serviceData, frontImage: cleanPath };
@@ -175,7 +180,7 @@ const createService = async (
     const service = await serviceService.create(serviceDatas);
     return res.status(201).json({
       statusCode: 201,
-      message: `la service a bien ete enregistré`,
+      message: `le service a bien ete enregistré`,
       service: service,
     });
   } catch (error: any) {

@@ -12,7 +12,7 @@ ServiceRouter.post(
   serviceController.createService,
   uploadErrorHandler
 );
-ServiceRouter.route("/:id")
+ServiceRouter.route("/:serviceId")
   .get(serviceController.getServiceById)
   .put(serviceController.updateService)
   .delete(serviceController.deleteOneService);

@@ -35,8 +35,7 @@ app.use(cors(corsOptions));
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "http://localhost:3000"
-
+    "https://esea-reserve.vercel.app"
     /*     "https://esea-reserve.vercel.app" , "https://easy-reserve-backend-production.up.railway.app",
       "https://esea-reserve.vercel.app", */ // Ajoutez l'URL de production de votre frontend
   );

@@ -12,6 +12,7 @@ export interface IReservation extends Document {
   wever: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
   taskDescription: string;
+  registrationDate: Date;
 }
 
 const ReservationSchema: Schema<IReservation> = new Schema({
@@ -36,6 +37,7 @@ const ReservationSchema: Schema<IReservation> = new Schema({
     default: "pending",
   },
   taskDescription: { type: String },
+  registrationDate: { type: Date, default: Date.now },
 });
 
 const ReservationModel = mongoose.model<IReservation>(

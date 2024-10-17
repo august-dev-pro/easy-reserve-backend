@@ -7,7 +7,7 @@ const reservationRouter = Router();
 reservationRouter.get("/", reservationController.getAllReservation);
 reservationRouter.post("/", reservationController.createReservation);
 reservationRouter
-  .route("/:id")
+  .route("/:reservationId")
   .get(reservationController.getReservationById)
   .put(reservationController.updateReservation)
   .delete(reservationController.deleteOneReservation);

@@ -14,13 +14,13 @@ const getAllReservation = async (
       return res.status(200).json({
         statusCode: 200,
         message: "aucune reservation trouvé",
-        reservations: reservationService,
+        reservations: reservations,
       });
     }
     return res.status(200).json({
       statusCode: 200,
       message: "les reservations ont bien ete recuperés",
-      reservations: reservationService,
+      reservations: reservations,
     });
   } catch (error: any) {
     return next(

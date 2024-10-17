@@ -14,8 +14,10 @@ const createServiceOption = async (
       ? path.relative(process.cwd(), req.file.path)
       : "";
     const cleanPath = filePath
-      .replace(/^src[\\\/]uploads[\\\/]/, "") // Retire "src/uploads"
-      .replace(/\\/g, "/"); // Remplace les \ par des /
+      .replace(/^src[\\/]{1}uploads[\\/]{1}/, "")
+      .replace(/^dist[\\/]{1}uploads[\\/]{1}/, "")
+      // Remplacer les backslashes (\) par des slashes (/)
+      .replace(/\\/g, "/");
     const serviceOptionData: IServiceOption = { ...req.body, image: cleanPath };
     const serviceOption = await serviceOptionService.create(serviceOptionData);
     return res.status(201).json({

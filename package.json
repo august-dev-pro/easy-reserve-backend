@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "build": "tsc && npm run copy-images",
     "start": "node dist/server.js",
     "copy-images": "ncp src/uploads dist/uploads --filter \".*\\\\.(jpg|jpeg|png|gif|svg)$\"",
     "copy-files": "ncp src/uploads dist/uploads --filter \".*\\\\.(pdf|docx|txt)$\"",

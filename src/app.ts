@@ -37,7 +37,7 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Origin",
     "https://esea-reserve.vercel.app"
 
-    /*     "http://localhost:3000" , "https://easy-reserve-backend-production.up.railway.app",
+    /*    "http://localhost:3000"   , "https://easy-reserve-backend-production.up.railway.app",
       "https://esea-reserve.vercel.app", */ // Ajoutez l'URL de production de votre frontend
   );
 
